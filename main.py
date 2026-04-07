@@ -56,15 +56,14 @@ async def serve_frontend():
 @app.post("/api/chat")
 async def chat(req: ChatRequest, request: Request):
     message = req.message.strip()
-    print(f"\n📥 Message: {message}")
-
     if not message:
         return JSONResponse({"error": "Message required"}, status_code=400)
+    print(f"\nMessage received: {message}")
 
     # Rate limit check
-    client_ip = request.client.host
+    client_ip = request.client.host if request.client else "unknown"
     if not check_rate_limit(client_ip):
-        print(f"⚠️ Rate limit hit for {client_ip}")
+        print(f"Rate limit hit for {client_ip}")
         return JSONResponse({
             "products": get_fallback_products(message),
             "note": "⏰ Too many requests. Showing cached recommendations.",
@@ -91,7 +90,7 @@ async def chat(req: ChatRequest, request: Request):
 
         # Step 3: Fallback if no results
         if not products:
-            print("⚠️ No SerpAPI results, using fallback")
+            print("No SerpAPI results, using fallback")
             products = get_fallback_products(search_query)
             note = "✨ Showing curated recommendations"
             source = "fallback"
@@ -110,7 +109,7 @@ async def chat(req: ChatRequest, request: Request):
         })
 
     except Exception as e:
-        print(f"❌ Server error: {e}")
+        print(f"Server error: {e}")
         return JSONResponse({
             "products": get_fallback_products(message),
             "note": "✨ Showing curated recommendations",
@@ -126,5 +125,5 @@ async def health():
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", 8000))
-    print(f"\n🚀 Starting ShopBot on port {port}")
+    print(f"\nStarting ShopBot on port {port}")
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)

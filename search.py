@@ -11,7 +11,7 @@ SERPAPI_URL = "https://serpapi.com/search"
 
 async def search_amazon(search_query: str) -> list:
     try:
-        print(f"🔍 SerpAPI searching: {search_query}")
+        print(f"SerpAPI searching: {search_query}")
 
         params = {
             "engine": "amazon",
@@ -25,11 +25,11 @@ async def search_amazon(search_query: str) -> list:
         data = response.json()
 
         if "error" in data:
-            print(f"❌ SerpAPI error: {data['error']}")
+            print(f"SerpAPI error: {data['error']}")
             return []
 
         organic = data.get("organic_results", [])
-        print(f"✅ SerpAPI returned {len(organic)} results")
+        print(f"SerpAPI returned {len(organic)} results")
 
         products = []
         for item in organic[:5]:
@@ -50,11 +50,11 @@ async def search_amazon(search_query: str) -> list:
         return products
 
     except requests.Timeout:
-        print("❌ SerpAPI timeout")
+        print("SerpAPI timeout")
         return []
 
     except Exception as e:
-        print(f"❌ SerpAPI exception: {e}")
+        print(f"SerpAPI exception: {e}")
         return []
 
 

@@ -31,7 +31,7 @@ Rules:
 
 async def extract_intent(message: str) -> dict:
     try:
-        print(f"🤖 Gemini processing: {message}")
+        print(f"Gemini processing: {message}")
         prompt = PROMPT_TEMPLATE.format(message=message)
         response = model.generate_content(prompt)
         raw = response.text.strip()
@@ -40,11 +40,11 @@ async def extract_intent(message: str) -> dict:
         raw = raw.replace("```json", "").replace("```", "").strip()
 
         result = json.loads(raw)
-        print(f"✅ Gemini extracted: {result}")
+        print(f"Gemini extracted: {result}")
         return result
 
     except json.JSONDecodeError as e:
-        print(f"❌ Gemini JSON parse error: {e}")
+        print(f"Gemini JSON parse error: {e}")
         # Fallback - treat whole message as search query
         return {
             "product": message,
@@ -54,7 +54,7 @@ async def extract_intent(message: str) -> dict:
         }
 
     except Exception as e:
-        print(f"❌ Gemini error: {e}")
+        print(f"Gemini error: {e}")
         return {
             "product": message,
             "budget": 0,

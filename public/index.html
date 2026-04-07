@@ -7,44 +7,90 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --bg: #090b14;
+      --surface: rgba(14, 18, 33, 0.8);
+      --surface-strong: #151b33;
+      --text: #eef2ff;
+      --muted: #aab2cf;
+      --primary: #7c5cff;
+      --primary-2: #14b8ff;
+      --accent: #ffb52e;
+      --success: #40d691;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f0f1a;
-      color: #fff;
-      height: 100vh;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      color: var(--text);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(124, 92, 255, 0.2), transparent 30%),
+        radial-gradient(circle at 90% 0%, rgba(20, 184, 255, 0.16), transparent 32%),
+        linear-gradient(140deg, #080a13 0%, #10172e 50%, #080a13 100%);
     }
 
     header {
-      width: 100%;
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      padding: 16px 24px;
+      width: min(960px, calc(100% - 24px));
+      margin-top: 16px;
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
       gap: 12px;
-      border-bottom: 1px solid #ffffff15;
+      box-shadow: var(--shadow);
     }
 
-    header .logo { font-size: 28px; }
-    header h1 { font-size: 20px; font-weight: 700; color: #f0a500; }
-    header p { font-size: 12px; color: #aaa; }
+    header .logo {
+      font-size: 27px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.3), rgba(20, 184, 255, 0.25));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    header h1 {
+      font-size: 22px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent), #ffd56a 45%, #ffffff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
     .chat-container {
-      width: 100%;
-      max-width: 800px;
+      width: min(960px, calc(100% - 24px));
+      margin-top: 14px;
+      margin-bottom: 12px;
       flex: 1;
       overflow-y: auto;
-      padding: 24px 16px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 16px;
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
     }
 
-    .welcome { text-align: center; padding: 40px 20px; }
-    .welcome h2 { font-size: 24px; color: #f0a500; margin-bottom: 10px; }
-    .welcome p { color: #aaa; font-size: 14px; margin-bottom: 24px; }
+    .welcome { text-align: center; padding: 36px 18px; }
+    .welcome h2 { font-size: 30px; color: #f7f9ff; margin-bottom: 10px; }
+    .welcome p { color: var(--muted); font-size: 15px; margin-bottom: 26px; }
 
     .suggestions {
       display: flex;
@@ -54,48 +100,60 @@
     }
 
     .suggestion-btn {
-      background: #1a1a2e;
-      border: 1px solid #f0a50050;
-      color: #f0a500;
-      padding: 8px 16px;
-      border-radius: 20px;
+      background: rgba(124, 92, 255, 0.12);
+      border: 1px solid rgba(124, 92, 255, 0.35);
+      color: #dcd3ff;
+      padding: 9px 16px;
+      border-radius: 999px;
       cursor: pointer;
       font-size: 13px;
-      transition: all 0.2s;
+      font-weight: 500;
+      transition: all 0.22s ease;
     }
 
-    .suggestion-btn:hover { background: #f0a500; color: #000; }
+    .suggestion-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(20, 184, 255, 0.5);
+      background: rgba(20, 184, 255, 0.14);
+      color: #e8fbff;
+    }
 
     .message { display: flex; gap: 10px; align-items: flex-start; }
     .message.user { flex-direction: row-reverse; }
 
     .avatar {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.14);
     }
 
-    .avatar.bot { background: #f0a50020; }
-    .avatar.user { background: #4f46e520; }
+    .avatar.bot { background: rgba(255, 181, 46, 0.16); }
+    .avatar.user { background: rgba(124, 92, 255, 0.2); }
 
     .bubble {
-      max-width: 75%;
+      max-width: 78%;
       padding: 12px 16px;
-      border-radius: 16px;
+      border-radius: 14px;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.65;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
     }
 
     .message.bot .bubble {
-      background: #1a1a2e;
-      border: 1px solid #ffffff10;
-      border-top-left-radius: 4px;
+      background: rgba(20, 26, 47, 0.88);
+      border: 1px solid var(--border);
+      border-top-left-radius: 6px;
     }
 
     .message.user .bubble {
-      background: #4f46e5;
-      border-top-right-radius: 4px;
+      background: linear-gradient(135deg, #6b4eff, #368dff);
+      border-top-right-radius: 6px;
     }
 
     .products-grid {
@@ -106,52 +164,65 @@
     }
 
     .product-card {
-      background: #16213e;
-      border: 1px solid #ffffff15;
-      border-radius: 12px;
-      padding: 14px;
+      background: var(--surface-strong);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      padding: 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      transition: border-color 0.2s;
+      transition: transform 0.18s ease, border-color 0.2s ease;
     }
 
-    .product-card:hover { border-color: #f0a50060; }
+    .product-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(20, 184, 255, 0.45);
+    }
 
     .product-info { flex: 1; }
-    .product-rank { font-size: 11px; color: #f0a500; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .product-name { font-size: 15px; font-weight: 600; margin: 4px 0; color: #fff; }
-    .product-price { font-size: 16px; font-weight: 700; color: #4ade80; }
-    .product-rating { font-size: 12px; color: #aaa; margin-top: 4px; }
-    .product-reason { font-size: 12px; color: #888; margin-top: 6px; font-style: italic; }
+    .product-rank {
+      font-size: 11px;
+      color: #ffd56a;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .product-name { font-size: 15px; font-weight: 600; margin: 4px 0; color: #ffffff; }
+    .product-price { font-size: 16px; font-weight: 700; color: var(--success); }
+    .product-rating { font-size: 12px; color: #b8c1df; margin-top: 4px; }
+    .product-reason { font-size: 12px; color: #95a0c3; margin-top: 6px; font-style: italic; }
 
     .buy-btn {
-      background: linear-gradient(135deg, #f0a500, #ff6b00);
-      color: #000;
+      background: linear-gradient(135deg, #ffbf3d, #ff7e2f);
+      color: #151515;
       font-weight: 700;
       padding: 10px 18px;
-      border-radius: 8px;
+      border-radius: 10px;
       text-decoration: none;
       font-size: 13px;
       white-space: nowrap;
-      transition: opacity 0.2s;
+      transition: transform 0.16s ease, opacity 0.2s;
     }
 
-    .buy-btn:hover { opacity: 0.85; }
+    .buy-btn:hover { opacity: 0.92; transform: translateY(-1px); }
 
     .typing {
-      display: flex; gap: 6px; align-items: center;
+      display: flex;
+      gap: 6px;
+      align-items: center;
       padding: 12px 16px;
-      background: #1a1a2e;
-      border-radius: 16px;
-      border-top-left-radius: 4px;
+      background: rgba(20, 26, 47, 0.88);
+      border-radius: 14px;
+      border-top-left-radius: 6px;
+      border: 1px solid var(--border);
       width: fit-content;
     }
 
     .typing span {
-      width: 8px; height: 8px;
-      background: #f0a500;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
       border-radius: 50%;
       animation: bounce 1.2s infinite;
     }
@@ -175,49 +246,65 @@
 
     .source-live { background: #4ade8020; color: #4ade80; border: 1px solid #4ade8040; }
     .source-cache { background: #f0a50020; color: #f0a500; border: 1px solid #f0a50040; }
-    .source-fallback { background: #ffffff10; color: #aaa; border: 1px solid #ffffff20; }
+    .source-fallback { background: #ffffff10; color: #aeb7d7; border: 1px solid #ffffff20; }
 
     .input-area {
-      width: 100%; max-width: 800px;
-      padding: 16px;
-      background: #1a1a2e;
-      border-top: 1px solid #ffffff10;
-      display: flex; gap: 10px;
+      width: min(960px, calc(100% - 24px));
+      margin-bottom: 16px;
+      padding: 12px;
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      gap: 10px;
+      box-shadow: var(--shadow);
     }
 
     input {
       flex: 1;
-      background: #0f0f1a;
-      border: 1px solid #ffffff20;
+      background: rgba(9, 11, 20, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 12px;
-      padding: 12px 16px;
-      color: #fff;
+      padding: 12px 14px;
+      color: var(--text);
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    input:focus { border-color: #f0a500; }
-    input::placeholder { color: #555; }
+    input:focus {
+      border-color: rgba(20, 184, 255, 0.6);
+      box-shadow: 0 0 0 3px rgba(20, 184, 255, 0.16);
+    }
+    input::placeholder { color: #68729a; }
 
     button#sendBtn {
-      background: linear-gradient(135deg, #f0a500, #ff6b00);
+      background: linear-gradient(135deg, #7c5cff, #14b8ff);
       border: none;
       border-radius: 12px;
-      padding: 12px 20px;
-      color: #000;
+      padding: 12px 19px;
+      color: #ffffff;
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: transform 0.16s ease, opacity 0.2s;
     }
 
-    button#sendBtn:hover { opacity: 0.85; }
-    button#sendBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+    button#sendBtn:hover { opacity: 0.95; transform: translateY(-1px); }
+    button#sendBtn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
 
-    .chat-container::-webkit-scrollbar { width: 4px; }
+    .chat-container::-webkit-scrollbar { width: 6px; }
     .chat-container::-webkit-scrollbar-track { background: transparent; }
-    .chat-container::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    .chat-container::-webkit-scrollbar-thumb { background: #3f4a74; border-radius: 4px; }
+
+    @media (max-width: 700px) {
+      header, .chat-container, .input-area { width: calc(100% - 16px); }
+      .welcome h2 { font-size: 25px; }
+      .bubble { max-width: 88%; }
+      .product-card { flex-direction: column; align-items: flex-start; }
+      .buy-btn { width: 100%; text-align: center; }
+    }
   </style>
 </head>
 <body>
@@ -266,6 +353,19 @@
     const div = document.createElement('div');
     div.textContent = text || '';
     return div.innerHTML;
+  }
+
+  function safeExternalUrl(url) {
+    if (!url) return "https://www.amazon.in";
+    try {
+      const parsed = new URL(url, window.location.origin);
+      if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+        return parsed.href;
+      }
+    } catch (e) {
+      return "https://www.amazon.in";
+    }
+    return "https://www.amazon.in";
   }
 
   function addMessage(role, content) {
@@ -318,7 +418,7 @@
           <div class="product-rating">⭐ ${escapeHtml(p.rating)} · ${escapeHtml(p.reviews)}</div>
           <div class="product-reason">${escapeHtml(p.reason)}</div>
         </div>
-        <a href="${p.link}" target="_blank" rel="noopener" class="buy-btn">
+        <a href="${safeExternalUrl(p.link)}" target="_blank" rel="noopener" class="buy-btn">
           Buy on Amazon ➤
         </a>
       `;
